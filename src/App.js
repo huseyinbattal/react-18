@@ -1,8 +1,17 @@
 import "./App.css";
-import { useId, useState } from "react";
+import { useId, useState, useTransition} from "react";
 import { flushSync } from "react-dom";
 
 function App() {
+  const [isPending, startTransition] = useTransition();
+  const [count, setCount] = useState("");
+
+  function handleBtnClick() {
+    startTransition(() => {
+      setCount("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm2DAPIyDJ3hWNWAcDyvlaNtK0UPG3yh9BTN-jJvdz&s");
+    })
+  }
+
   console.log(useId());
 
   const [text, setText] = useState(0);
@@ -22,7 +31,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={handleClick}>Click</button>
+     
+
+        <div>
+          {isPending && <div><img src={count} /></div>}
+          
+          <button onClick={handleBtnClick}>Image</button>
+    </div>
       </header>
     </div>
   );
